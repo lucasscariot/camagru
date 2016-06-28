@@ -1,0 +1,54 @@
+.box-form {
+  margin: auto;
+  width: 40%;
+  min-width: 400px;
+}
+
+.box-form hr {
+  border: solid 1px #234161;
+  width: 25%;
+  float: left;
+}
+
+.box-form input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: 10px 15px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    font-size: 18px;
+}
+
+.box-form input[type=submit] {
+  background-color: #408a57;
+  border-radius: 2px;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  width: 100%;
+  margin: auto;
+  border: none;
+}
+
+.box-form input[type=submit]:hover {
+  background-color: #3b6949;
+  color: white;
+}
+
+.message-box {
+  padding: 15px;
+  color: white;
+  width: 50%;
+  margin: auto;
+  margin-bottom: 30px;
+  border-radius: 2px;
+}
+
+.error {
+  background-color: #b33636;
+  border: solid 1px #902020;
+}
+
+.success {
+  background-color: #408a57;
+  border: solid 1px #2d7945;
+}
