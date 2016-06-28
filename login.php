@@ -5,20 +5,18 @@
 
   $error = [];
   if ($_POST[submit] == "Login" && $_POST[id] && $_POST[password]) {
-    if (!preg_match("/^[A-z0-9]+@[.A-z0-9]+$/", $_POST[email])) {
-      array_push($error, "Email incorrect");
-    }
-    if (!preg_match("/^[A-z0-9]+$/", $_POST[name])) {
+    if (!preg_match("/^[A-z0-9@.]+$/", $_POST[id])) {
       array_push($error, "Name mauvais format");
     }
-    $query = mysqli_query($mysqli, "SELECT * FROM users WHERE email = '".$_POST[email]."'");
-    $user = mysqli_fetch_array($query);
-    if (!$user) {
-      array_push($error, "Inexistant user");
-    }
     if (!$error) {
-      $query = mysqli_query($mysqli, "INSERT INTO `users` (`name`, `email`, `password`) VALUES ('".$_POST[name]."','".$_POST[email]."', '".hash('whirlpool', $_POST[password])."')");
-      echo 'ok';
+      $query = mysqli_query($mysqli, "SELECT * FROM users WHERE name = '".$_POST[id]."'");
+      $user = mysqli_fetch_array($query);
+      if (!$user) {
+        array_push($error, "Inexistant user");
+      }
+      else {
+        echo "GOOD";
+      }
     }
   }
   else if ($_POST[submit]){
