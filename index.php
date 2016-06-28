@@ -6,7 +6,7 @@
   <title><?php echo $site; ?> - Home</title>
   <link rel="stylesheet" href="css/global.css" media="screen" title="no title" charset="utf-8">
 </head>
-<?php require_once("includes/nav.php"); ?>
+<?php require_once("includes/log_nav.php"); ?>
 </nav>
 <body>
   <div class="main">

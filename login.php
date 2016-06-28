@@ -15,7 +15,7 @@
         array_push($error, "Inexistant user");
       }
       else {
-        echo "GOOD";
+        $_SESSION[id] = $user[id];
       }
     }
   }
