@@ -38,7 +38,7 @@
 </nav>
 <body>
   <div class="container">
-    <div class="message-box success">
+    <div class="message-box error">
       <?php print_r($error); ?>
     </div>
       <form class="box-form" action="" method="post">
