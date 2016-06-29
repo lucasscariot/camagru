@@ -9,13 +9,14 @@
       array_push($error, "Name mauvais format");
     }
     if (!$error) {
-      $query = mysqli_query($mysqli, "SELECT * FROM users WHERE name = '".$_POST[id]."'");
+      $query = mysqli_query($mysqli, "SELECT * FROM users WHERE email = '".$_POST[id]."'");
       $user = mysqli_fetch_array($query);
       if (!$user) {
         array_push($error, "Inexistant user");
       }
       else {
         $_SESSION[id] = $user[id];
+        header('location: index.php');
       }
     }
   }
@@ -41,7 +42,7 @@
       <form class="box-form" action="" method="post">
         <h1>Login</h1>
         <hr>
-        <input type="text" name="id" value="" placeholder="Identifiant">
+        <input type="text" name="id" value="" placeholder="Email">
         <input type="password" name="password" value="" placeholder="Mot de passe">
         <input type="submit" name="submit" value="Login">
       </form>
