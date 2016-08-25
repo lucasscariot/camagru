@@ -8,4 +8,3 @@ function getUser($mysqli, $id)
   }
   return (NULL);
 }
-?>

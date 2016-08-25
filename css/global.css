@@ -1,7 +1,51 @@
+/* GLOBAL CSS */
 html, body {
   padding: 0px;
   margin: 0px;
   font-family: sans-serif;
+  color:#565656;
+}
+
+.container a {
+  text-decoration: none;
+  color: #3e93c7;
+}
+
+.container a:hover {
+  color: #e0601e;
+  text-decoration: underline;
+  transition: 5s;
+}
+
+/* SIDEBAR */
+.sidebar {
+  margin: 0px;
+}
+
+/* SIDEBAR GALERY */
+.pic img {
+  width: 100%;
+  border-top-left-radius: 10px;
+}
+
+.pic {
+  background-color: #fdfdfd;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  margin-bottom: 20px;
+  border: solid 1px #e6e6e6;
+  box-shadow: 1px 1px 6px #cecece;
+}
+
+.data {
+  height: 100%;
+  width: 100%;
+}
+
+.data p {
+  margin: 8px 20px;
+  font-size: 1.3vw;
 }
 
 /* NAV */
@@ -56,9 +100,6 @@ h1, h2, h3, h4 {
 }
 
 .camera {
-  min-width: 800px;
   padding: 20px;
   background-color: black;
-  width: 60%;
-  margin: auto;
 }

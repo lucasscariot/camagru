@@ -10,8 +10,9 @@
   <meta charset="utf-8">
   <title><?php echo $site; ?> - Home</title>
   <link rel="stylesheet" href="css/global.css" media="screen" charset="utf-8">
+  <link rel="icon" href="img/favicon.png" />
 </head>
-<?php require_once("includes/log_nav.php"); ?>
+<?php require_once("includes/nav.php"); ?>
 </nav>
 <body>
   <div class="main">
@@ -28,14 +29,36 @@
   </div>
   <div class="sidebar">
     <div class="container">
-      <h2>Last Pics</h2>
+      <div class="galery">
+        <h2>Last Pics</h2>
+        <hr>
+        <div class="pic">
+          <img src="http://lorempicsum.com/up/350/200/1" height="100%" alt="" />
+          <div class="data">
+            <p><strong>Hello</strong> by <a href="#">Lucas</a></p>
+          </div>
+        </div>
+        <div class="pic">
+          <img src="http://lorempicsum.com/up/350/200/2" height="100%" alt="" />
+          <div class="data">
+            <p><strong>Test</strong> by <a href="#">Lucas</a></p>
+          </div>
+        </div>
+        <div class="pic">
+          <img src="http://lorempicsum.com/up/350/200/3" height="100%" alt="" />
+          <div class="data">
+            <p><strong>Boom</strong> by <a href="#">Lucas</a></p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 <script type="text/javascript">
 var moi='',data,canvas=document.getElementById('canvas'),pos=0,ctx=null,
     image=[],b=1,n=document.getElementById('stream');
 var options={ // --- 1 ---
-    width:700,
+    width:900,
+    resp_width:"100%",
     height:500,
     swffile:"webcam.swf",
     wrapper:"webcam",
@@ -46,7 +69,7 @@ var options={ // --- 1 ---
 //
 function webcam(){
         // --- 3 ---
-    var source='<object id="camObj" type="application/x-shockwave-flash" data="'+options.swffile+'" width="'+options.width+'" height="'+options.height+'"><param name="movie" value="'+options.swffile+'" /><param name="FlashVars" value="width='+options.width+'&height='+options.height+'&jpgEncode='+options.jpgEncode+'&jpgQuality='+options.jpgQuality+'&refresh='+Math.floor(options.refresh*.9)+'&wrapper='+options.wrapper+'" /><param name="allowScriptAccess" value="always" /></object>';
+    var source='<object id="camObj" type="application/x-shockwave-flash" data="'+options.swffile+'" width="'+options.resp_width+'" height="'+options.height+'"><param name="movie" value="'+options.swffile+'" /><param name="FlashVars" value="width='+options.width+'&height='+options.height+'&jpgEncode='+options.jpgEncode+'&jpgQuality='+options.jpgQuality+'&refresh='+Math.floor(options.refresh*.9)+'&wrapper='+options.wrapper+'" /><param name="allowScriptAccess" value="always" /></object>';
     document.getElementById('camera').innerHTML=source;
     if (canvas.toDataURL){ // --- 2 ---
         ctx=canvas.getContext("2d");
