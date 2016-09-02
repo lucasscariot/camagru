@@ -1,5 +1,6 @@
 <?php
-  require_once("includes/head.php");
+  $page = "Login";
+  require_once("includes/config.php");
   if ($_SESSION[id])
     header('location: index.php');
 
@@ -21,31 +22,22 @@
     }
   }
   else if ($_POST[submit]){
-    array_push($error, "Tout les champs sont obligatoires");
+    array_push($error, "Tous les champs sont obligatoires");
   }
+  require_once("includes/head.php");
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title><?php echo $site; ?> - Login</title>
-  <link rel="stylesheet" href="css/global.css" media="screen" title="no title" charset="utf-8">
-  <link rel="stylesheet" href="css/form.css" media="screen" title="no title" charset="utf-8">
-</head>
-<?php require_once("includes/nav.php"); ?>
-</nav>
-<body>
-  <div class="container">
+<div class="row">
+  <div class="w-12">
     <div class="message-box error">
       <?php print_r($error); ?>
     </div>
-      <form class="box-form" action="" method="post">
-        <h1>Login</h1>
-        <hr>
-        <input type="text" name="id" value="" placeholder="Email">
-        <input type="password" name="password" value="" placeholder="Mot de passe">
-        <input type="submit" name="submit" value="Login">
-      </form>
+    <form class="box-form" action="" method="POST">
+      <h1>Login</h1>
+      <hr>
+      <input type="text" name="id" placeholder="Email">
+      <input type="password" name="password" value="" placeholder="Mot de passe">
+      <input type="submit" name="submit" value="Login">
+    </form>
   </div>
-</body>
-</html>
+</div>
+<?php require_once("includes/footer.php"); ?>

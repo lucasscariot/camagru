@@ -1,5 +1,2 @@
-<footer>
-<p>
-  Hey
-</p>
-</footer>
+</body>
+</html>
