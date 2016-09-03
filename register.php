@@ -23,15 +23,13 @@
     }
   }
   else if ($_POST[submit]){
-    array_push($error, "Tout les champs sont obligatoires");
+    array_push($error, "Tous les champs sont obligatoires");
   }
   require_once("includes/head.php");
 ?>
 <div class="row">
   <div class="w-12">
-    <div class="message-box error">
-      <?php print_r($error); ?>
-    </div>
+    <?php require_once("includes/alert.php"); ?>
     <form class="box-form" action="" method="post">
       <h1>Register</h1>
       <hr>

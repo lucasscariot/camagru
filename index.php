@@ -5,6 +5,10 @@
     header('location: login.php');
   }
   $user = getUser($mysqli, $_SESSION[id]);
+
+  /* Select Last Pics */
+  $query = mysqli_query($mysqli, "SELECT * FROM pics WHERE id = '".$user[id]."'");
+
   require_once("includes/head.php")
 ?>
 <div class="row">
@@ -23,24 +27,17 @@
     <div class="galery">
       <h1>Last Pics</h1>
       <hr>
-      <div class="pic">
-        <img src="http://lorempicsum.com/up/350/200/1" height="100%" alt="" />
-        <div class="data">
-          <p><strong>Hello</strong> by <a href="#">Lucas</a></p>
+      <?php while($pic = mysqli_fetch_assoc($query))
+      {
+        $pic[user] = getUser($mysqli, $pic[user]);
+        ?>
+        <div class="pic">
+          <img src="<?php echo $pic[url]; ?>" height="100%" alt="<?php echo $pic[name]; ?>" />
+          <div class="data">
+            <p><strong><?php echo $pic[name]; ?></strong> by <a href="#"><?php echo $pic[user][name]; ?></a></p>
+          </div>
         </div>
-      </div>
-      <div class="pic">
-        <img src="http://lorempicsum.com/up/350/200/2" height="100%" alt="" />
-        <div class="data">
-          <p><strong>Test</strong> by <a href="#">Lucas</a></p>
-        </div>
-      </div>
-      <div class="pic">
-        <img src="http://lorempicsum.com/up/350/200/3" height="100%" alt="" />
-        <div class="data">
-          <p><strong>Boom</strong> by <a href="#">Lucas</a></p>
-        </div>
-      </div>
+      <?php } ?>
     </div>
     <p class="clear"></p>
   </div>

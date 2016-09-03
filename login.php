@@ -15,9 +15,12 @@
       if (!$user) {
         array_push($error, "Inexistant user");
       }
-      else {
+      else if (hash('whirlpool', $_POST[password]) == $user[password]) {
         $_SESSION[id] = $user[id];
         header('location: index.php');
+      }
+      else {
+        array_push($error, "Mot de passe incorrect");
       }
     }
   }
@@ -28,9 +31,7 @@
 ?>
 <div class="row">
   <div class="w-12">
-    <div class="message-box error">
-      <?php print_r($error); ?>
-    </div>
+    <?php require_once("includes/alert.php"); ?>
     <form class="box-form" action="" method="POST">
       <h1>Login</h1>
       <hr>
