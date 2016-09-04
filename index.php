@@ -38,7 +38,7 @@
         <div class="pic">
           <img src="<?php echo $pic[url]; ?>" height="100%" alt="<?php echo $pic[name]; ?>" />
           <div class="data">
-            <p><strong><?php echo $pic[name]; ?></strong> by <a href="#"><?php echo $pic[user][name]; ?></a> | <span style="color: grey;"><?php echo date("d/m/y h\h", $pic[date]); ?></span></p>
+            <p><strong><?php echo $pic[name]; ?></strong> by <a href="#"><?php echo $pic[user][name]; ?></a> | <span style="color: grey;"><?php echo date("d/m/y h:i", $pic[date]); ?></span></p>
           </div>
         </div>
       <?php } ?>

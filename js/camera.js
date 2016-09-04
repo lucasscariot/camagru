@@ -1,13 +1,42 @@
 var video = document.getElementById('video');
 var canvas = document.getElementById('canvas');
+canvas.style.display="none";
 var videoStream = null;
 var preLog = document.getElementById('preLog');
+// Custom video filters
+var iFilter = 0;
+var filters = [
+	'grayscale',
+	'sepia',
+	'blur',
+	'brightness',
+	'contrast',
+	'hue-rotate',
+	'hue-rotate2',
+	'hue-rotate3',
+	'saturate',
+	'invert',
+	'none'
+	 ];
 
 function log(text)
 {
 	if (preLog) preLog.textContent += ('\n' + text);
 	else alert(text);
 }
+
+// Add event listener for our Button (to switch video filters)
+document.querySelector('button').addEventListener('click', function() {
+		video.className = '';
+		canvas.className = '';
+		var effect = filters[iFilter++ % filters.length]; // Loop through the filters.
+		if (effect) {
+				video.classList.add(effect);
+				canvas.classList.add(effect);
+
+				document.querySelector('.camera h3').innerHTML = effect;
+		}
+}, false);
 
 function snapshot()
 {
