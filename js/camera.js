@@ -1,101 +1,108 @@
-// Main initialization
-document.addEventListener('DOMContentLoaded', function() {
+var video = document.getElementById('video');
+var canvas = document.getElementById('canvas');
+var videoStream = null;
+var preLog = document.getElementById('preLog');
 
-    // Global variables
-    var video = document.querySelector('video');
-    var audio, audioType;
-    //var canvas = document.querySelector('canvas');
-    //var context = canvas.getContext('2d');
+function log(text)
+{
+	if (preLog) preLog.textContent += ('\n' + text);
+	else alert(text);
+}
 
-    // Custom video filters
-    var iFilter = 0;
-    var filters = [
-        'grayscale',
-        'sepia',
-        'blur',
-        'brightness',
-        'contrast',
-        'hue-rotate',
-        'hue-rotate2',
-        'hue-rotate3',
-        'saturate',
-        'invert',
-        'none'
-    ];
+function snapshot()
+{
+	canvas.width = video.videoWidth;
+	canvas.height = video.videoHeight;
+	canvas.getContext('2d').drawImage(video, 0, 0);
+	var canvasData = canvas.toDataURL("image/png");
+	$.ajax({
+  type: "POST",
+  url: "save.php",
+  data: {
+     canvasData: canvasData
+  }
+}).done(function(o) {
+		console.log(o);
+	  // If you want the file to be visible in the browser
+	  // - please modify the callback in javascript. All you
+	  // need is to return the url to the file, you just saved
+	  // and than put the image in your browser.
+	});
+}
 
-    // Get the video stream from the camera with getUserMedia
-    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia || navigator.msGetUserMedia;
+function noStream()
+{
+	log('L’accès à la caméra a été refusé !');
+}
 
-    window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-    if (navigator.getUserMedia) {
+function stop()
+{
+	var myButton = document.getElementById('buttonStop');
+	if (myButton) myButton.disabled = true;
+	myButton = document.getElementById('buttonSnap');
+	if (myButton) myButton.disabled = true;
+	if (videoStream)
+	{
+		if (videoStream.stop) videoStream.stop();
+		else if (videoStream.msStop) videoStream.msStop();
+		videoStream.onended = null;
+		videoStream = null;
+	}
+	if (video)
+	{
+		video.onerror = null;
+		video.pause();
+		if (video.mozSrcObject)
+			video.mozSrcObject = null;
+		video.src = "";
+	}
+	myButton = document.getElementById('buttonStart');
+	if (myButton) myButton.disabled = false;
+}
 
-        // Evoke getUserMedia function
-        navigator.getUserMedia({video: true, audio: true}, onSuccessCallback, onErrorCallback);
+function gotStream(stream)
+{
+	var myButton = document.getElementById('buttonStart');
+	if (myButton) myButton.disabled = true;
+	videoStream = stream;
+	video.onerror = function ()
+	{
+		log('video.onerror');
+		if (video) stop();
+	};
+	stream.onended = noStream;
+	if (window.webkitURL) video.src = window.webkitURL.createObjectURL(stream);
+	else if (video.mozSrcObject !== undefined)
+	{//FF18a
+		video.mozSrcObject = stream;
+		video.play();
+	}
+	else if (navigator.mozGetUserMedia)
+	{//FF16a, 17a
+		video.src = stream;
+		video.play();
+	}
+	else if (window.URL) video.src = window.URL.createObjectURL(stream);
+	else video.src = stream;
+	myButton = document.getElementById('buttonSnap');
+	if (myButton) myButton.disabled = false;
+	myButton = document.getElementById('buttonStop');
+	if (myButton) myButton.disabled = false;
+}
 
-        function onSuccessCallback(stream) {
-            // Use the stream from the camera as the source of the video element
-            video.src = window.URL.createObjectURL(stream) || stream;
+function start()
+{
+	if ((typeof window === 'undefined') || (typeof navigator === 'undefined')) log('Cette page requiert un navigateur Web avec les objets window.* et navigator.* !');
+	else if (!(video && canvas)) log('Erreur de contexte HTML !');
+	else
+	{
+		if (navigator.getUserMedia) navigator.getUserMedia({video:true}, gotStream, noStream);
+		else if (navigator.oGetUserMedia) navigator.oGetUserMedia({video:true}, gotStream, noStream);
+		else if (navigator.mozGetUserMedia) navigator.mozGetUserMedia({video:true}, gotStream, noStream);
+		else if (navigator.webkitGetUserMedia) navigator.webkitGetUserMedia({video:true}, gotStream, noStream);
+		else if (navigator.msGetUserMedia) navigator.msGetUserMedia({video:true, audio:false}, gotStream, noStream);
+		else log('getUserMedia() n’est pas disponible depuis votre navigateur !');
+	}
+}
 
-            // Autoplay
-            video.play();
-
-            // HTML5 Audio
-            audio = new Audio();
-            audioType = getAudioType(audio);
-            if (audioType) {
-                audio.src = 'polaroid.' + audioType;
-                audio.play();
-            }
-        }
-
-        // Display an error
-        function onErrorCallback(e) {
-            var expl = 'An error occurred: [Reason: ' + e.code + ']';
-            console.error(expl);
-            alert(expl);
-            return;
-        }
-    } else {
-        document.querySelector('.container').style.visibility = 'hidden';
-        document.querySelector('.warning').style.visibility = 'visible';
-        return;
-    }
-
-    // Draw the video stream at the canvas object
-    function drawVideoAtCanvas(obj, context) {
-        window.setInterval(function() {
-            context.drawImage(obj, 0, 0);
-        }, 60);
-    }
-
-    // The canPlayType() function doesn’t return true or false. In recognition of how complex
-    // formats are, the function returns a string: 'probably', 'maybe' or an empty string.
-    function getAudioType(element) {
-        if (element.canPlayType) {
-            if (element.canPlayType('audio/mp4; codecs="mp4a.40.5"') !== '') {
-                return('aac');
-            } else if (element.canPlayType('audio/ogg; codecs="vorbis"') !== '') {
-                return("ogg");
-            }
-        }
-        return false;
-    }
-
-    // Add event listener for our video's Play function in order to produce video at the canvas
-    video.addEventListener('play', function() {
-        drawVideoAtCanvas(this, context);
-    }, false);
-
-    // Add event listener for our Button (to switch video filters)
-    document.querySelector('button').addEventListener('click', function() {
-        video.className = '';
-        var effect = filters[iFilter++ % filters.length]; // Loop through the filters.
-        if (effect) {
-            video.classList.add(effect);
-
-            document.querySelector('.camera h3').innerHTML = effect;
-        }
-    }, false);
-
-}, false);
+start();

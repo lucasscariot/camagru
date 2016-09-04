@@ -18,8 +18,8 @@
       array_push($error, "Email déjà utilisé");
     }
     if (!$error) {
-      $query = mysqli_query($mysqli, "INSERT INTO `users` (`name`, `email`, `password`) VALUES ('".$_POST[name]."','".$_POST[email]."', '".hash('whirlpool', $_POST[password])."')");
-      echo 'ok';
+      $query = mysqli_query($mysqli, "INSERT INTO `users` (`name`, `email`, `password`, `date`) VALUES ('".$_POST[name]."','".$_POST[email]."', '".hash('whirlpool', $_POST[password])."', '".getdate()[0]."')");
+      $success = 'Account Created';
     }
   }
   else if ($_POST[submit]){

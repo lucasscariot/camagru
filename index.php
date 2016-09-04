@@ -7,9 +7,9 @@
   $user = getUser($mysqli, $_SESSION[id]);
 
   /* Select Last Pics */
-  $query = mysqli_query($mysqli, "SELECT * FROM pics WHERE id = '".$user[id]."'");
+  $query = mysqli_query($mysqli, "SELECT * FROM pics WHERE id = '".$_SESSION[id]."'");
 
-  require_once("includes/head.php")
+  require_once("includes/head.php");
 ?>
 <div class="row">
   <div class="w-9">
@@ -18,9 +18,13 @@
     <h2>Take your picture</h2>
     <br>
     <div class="camera">
-      <video width="100%"></video>
+      <p><video id="video" width="100%" autoplay="autoplay"></video></p>
+      <p><input type="button" id="buttonSnap" value="Prendre une photo" disabled="disabled" onclick="snapshot()" /></p>
+      <input type="button" id="buttonStart" value="Démarrer" disabled="disabled" onclick="start()" />
+      <input type="button" id="buttonStop" value="Arrêter" disabled="disabled" onclick="stop()" />
       <h3>None</h3>
       <button>Changer de filtre !</button>
+      <p><canvas id="canvas"></canvas></p>
     </div>
   </div>
   <div class="w-3">
@@ -41,5 +45,6 @@
     </div>
     <p class="clear"></p>
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
   <script src="js/camera.js"></script>
 <?php require_once("includes/footer.php"); ?>
